@@ -1,13 +1,43 @@
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, createUserWithEmailAndPassword, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
-setPersistence(auth, browserSessionPersistence);
-import { getFirestore, collection, doc, getDoc, getDocs, addDoc, setDoc, updateDoc, deleteDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  createUserWithEmailAndPassword,
+  setPersistence,
+  browserSessionPersistence
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  where,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
 import { firebaseConfig } from "./firebase-config.js";
 
-const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
-const secondaryApp=initializeApp(firebaseConfig,"secondary");
-const secondaryAuth=getAuth(secondaryApp);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const secondaryApp = getApps().some(app => app.name === "secondary")
+  ? getApp("secondary")
+  : initializeApp(firebaseConfig, "secondary");
+
+const secondaryAuth = getAuth(secondaryApp);
+
+setPersistence(auth, browserSessionPersistence);
 let me=null, profile=null, products=[], orders=[], resellers=[];
 const $=id=>document.getElementById(id);
 const money=n=>"Rs. "+Number(n||0).toLocaleString("en-LK",{minimumFractionDigits:2});
