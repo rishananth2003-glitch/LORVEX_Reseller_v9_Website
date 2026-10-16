@@ -7,7 +7,7 @@ import {
   signOut,
   createUserWithEmailAndPassword,
   setPersistence,
-  browserSessionPersistence
+  inMemoryPersistence
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
 import {
@@ -37,7 +37,7 @@ const secondaryApp = getApps().some(app => app.name === "secondary")
 
 const secondaryAuth = getAuth(secondaryApp);
 
-setPersistence(auth, browserSessionPersistence);
+setPersistence(auth, inMemoryPersistence);
 let me=null, profile=null, products=[], orders=[], resellers=[];
 const $=id=>document.getElementById(id);
 const money=n=>"Rs. "+Number(n||0).toLocaleString("en-LK",{minimumFractionDigits:2});
